@@ -10,6 +10,7 @@ import com.fvgprinc.tools.common.app.dbconnection2.DbConnFactory;
 import com.fvgprinc.tools.common.app.layers.Mapper;
 import com.fvgprinc.tools.common.app.layers.ParamAction;
 import com.fvgprinc.tools.common.datalayer.CommonDAL.DbTypes;
+import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 public class PadronElecDL extends Mapper {
 
     private final String tableName = "PadronElect";
-    private final String selectStm = "Select * "
-            + "from " + tableName;
+    private final String selectStm = "Select *  from "+ tableName;
     private final String insertStm = "insert into " + tableName + " ("
             + " cedula,   codelec,  fecCaduca, nombre,   primApe,  segApe  ) values ("
             + "?,?,?,?,?,?)";
@@ -39,7 +39,7 @@ public class PadronElecDL extends Mapper {
     private final String FindStm = selectStm + " where "
             + " cedula = ?";
 
-    public PadronElecDL() {
+    public PadronElecDL() throws SQLException, CommonDALExceptions {
         this.dbConn = DbConnFactory.getDbConn(DbTypes.MariaDb);
     }
 

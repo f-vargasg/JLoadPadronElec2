@@ -34,7 +34,7 @@ public class PadronElecBL {
         pedl.insert(lst);
     }
 
-    public void deleteAll() throws SQLException {
+    public void deleteAll() throws SQLException, CommonDALExceptions {
         PadronElecDL pedl = new PadronElecDL();
                 
         pedl.deleteAll();
