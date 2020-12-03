@@ -65,7 +65,10 @@ public class CargadorArchivos extends SwingWorker<String, Void> {
         String ffname = pathFile + File.separator + fname;
         int numLineas = cantLines(ffname);
         
+        
         this.jpb.setMaximum(numLineas);
+        this.jpb.setValue(0);
+        this.jpb.setStringPainted(true);
         System.out.println("Numero de lineas: " + Integer.toString(numLineas));        
 
         // pebl.deleteAll();
