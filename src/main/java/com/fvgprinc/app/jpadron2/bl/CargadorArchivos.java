@@ -32,6 +32,7 @@ public class CargadorArchivos extends SwingWorker<String, Void> {
     private final JProgressBar jpb;
     private final String pathFile;
     private final String fname;
+    
 
     public CargadorArchivos(JFrame frame, JProgressBar jpb, String pathFile, String fname) {
         this.frame = frame;

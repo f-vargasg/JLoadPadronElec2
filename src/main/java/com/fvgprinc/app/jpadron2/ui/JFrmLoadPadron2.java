@@ -28,6 +28,9 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
     final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(JFrmLoadPadron2.class);
 
+    CargadorArchivos ca;
+    boolean isStarted;
+
     /**
      * Creates new form JFrmLoadPadron2
      */
@@ -52,8 +55,10 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         jTxtPath = new javax.swing.JTextField();
         jButBuscar = new javax.swing.JButton();
         jTxtFldNumCedula = new javax.swing.JTextField();
-        jButCargarPadronAsync = new javax.swing.JButton();
         jPBarLoadFile = new javax.swing.JProgressBar();
+        jPanel1 = new javax.swing.JPanel();
+        jButCargarPadronAsync = new javax.swing.JButton();
+        jButCancelCargAsync = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +87,34 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
             }
         });
 
+        jButCancelCargAsync.setText("Cancelarr Padron Asincrono");
+        jButCancelCargAsync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButCancelCargAsyncActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButCancelCargAsync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButCargarPadronAsync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jButCargarPadronAsync)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButCancelCargAsync)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,16 +136,14 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                                         .addComponent(jButBuscar)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(139, 139, 139)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(76, 76, 76)
                                 .addComponent(jButCargarPadron, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
-                                .addComponent(jButCargarPadronAsync))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 9, Short.MAX_VALUE)))
+                                .addGap(86, 86, 86)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 89, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -130,13 +161,16 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTxtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButCargarPadron)
-                    .addComponent(jButCargarPadronAsync))
-                .addGap(18, 18, 18)
-                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 81, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jButCargarPadron)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
@@ -152,8 +186,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
         fname = pathFile + File.separator + fname;
 
-       //  pebl.deleteAll();
-
+        //  pebl.deleteAll();
         File fi = new File(fname);
         FileInputStream fis = new FileInputStream(fi);
         // Charset charset = Charset.forName("UTF-16");
@@ -217,17 +250,28 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
     private void jButCargarPadronAsyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButCargarPadronAsyncActionPerformed
 
-        if (JOptionPane.showConfirmDialog(null, "¿Desea Ejecutar la carga?","Confirmar",
-                                         JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            CargadorArchivos ca = new CargadorArchivos(this, jPBarLoadFile, jTxtPath.getText(), jTxtFileName.getText());
-            ca.execute();
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Opcion cancelada!!!!");
+        if (!this.isStarted) {
+            if (JOptionPane.showConfirmDialog(null, "¿Desea Ejecutar la carga?", "Confirmar",
+                    JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                jButCargarPadron.setEnabled(false);
+                jButCancelCargAsync.setEnabled(true);
+                ca = new CargadorArchivos(this, jPBarLoadFile, jTxtPath.getText(), jTxtFileName.getText());
+                ca.execute();
+            } else {
+                JOptionPane.showMessageDialog(null, "Opcion cancelada!!!!");
+            }
         }
 
 
     }//GEN-LAST:event_jButCargarPadronAsyncActionPerformed
+
+    private void jButCancelCargAsyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButCancelCargAsyncActionPerformed
+        if (this.ca != null) {
+            this.ca.cancel(true);
+            jButCargarPadron.setEnabled(true);
+        }
+
+    }//GEN-LAST:event_jButCancelCargAsyncActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,11 +313,13 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButBuscar;
+    private javax.swing.JButton jButCancelCargAsync;
     private javax.swing.JButton jButCargarPadron;
     private javax.swing.JButton jButCargarPadronAsync;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JProgressBar jPBarLoadFile;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTxtFileName;
     private javax.swing.JTextField jTxtFldNumCedula;
     private javax.swing.JTextField jTxtPath;
@@ -282,6 +328,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     private void initMyComponents() {
         jTxtPath.setText("C:\\Users\\garfi\\Downloads\\padron_completo");
         jTxtFileName.setText("PADRON_COMPLETO.txt");
+        this.isStarted = false;
 
     }
 }
