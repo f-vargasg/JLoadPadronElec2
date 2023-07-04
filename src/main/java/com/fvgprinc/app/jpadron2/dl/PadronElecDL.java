@@ -5,11 +5,11 @@
  */
 package com.fvgprinc.app.jpadron2.dl;
 
+import com.fvgprinc.app.jpadron2.globals.GloblaConstants;
 import com.fvgprinc.app.jpadron2.be.PadronElecBE;
-import com.fvgprinc.tools.common.app.dbconnection2.DbConnFactory;
+import com.fvgprinc.tools.common.app.dbconnection4.DIContainer;
 import com.fvgprinc.tools.common.app.layers.Mapper;
 import com.fvgprinc.tools.common.app.layers.ParamAction;
-import com.fvgprinc.tools.common.datalayer.CommonDAL.DbTypes;
 import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class PadronElecDL extends Mapper {
 
     private final String tableName = "PadronElect";
-    private final String selectStm = "Select *  from "+ tableName;
+    private final String selectStm = "Select *  from " + tableName;
     private final String insertStm = "insert into " + tableName + " ("
             + " cedula,   codelec,  fecCaduca, nombre,   primApe,  segApe  ) values ("
             + "?,?,?,?,?,?)";
@@ -40,7 +40,8 @@ public class PadronElecDL extends Mapper {
             + " cedula = ?";
 
     public PadronElecDL() throws SQLException, CommonDALExceptions {
-        this.dbConn = DbConnFactory.getDbConn(DbTypes.MariaDb);
+        this.dm = DIContainer.getInstance().getDataManager(GloblaConstants.MARIADBCONN);
+        this.conn = dm.getConnectioin();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class PadronElecDL extends Mapper {
 
     public boolean existe(String numCedula) throws SQLException {
         ArrayList<ParamAction> lst = new ArrayList<>();
-        
+
         lst.add(new ParamAction(ParamAction.JavaTypes.STRING, numCedula));
         Object res = doFind(lst);
         return (res != null);

@@ -8,8 +8,9 @@ package com.fvgprinc.app.jpadron2.ui;
 import com.fvgprinc.app.jpadron2.be.PadronElecBE;
 import com.fvgprinc.app.jpadron2.bl.CargadorArchivos;
 import com.fvgprinc.app.jpadron2.bl.PadronElecBL;
+import com.fvgprinc.app.jpadron2.globals.GloblaConstants;
+import com.fvgprinc.tools.common.app.dbconnection4.DIContainer;
 import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
-import com.fvgprinc.tools.common.string.MyCommonString;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -136,14 +137,14 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                                         .addComponent(jButBuscar)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(76, 76, 76)
                                 .addComponent(jButCargarPadron, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(86, 86, 86)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 89, Short.MAX_VALUE)))
+                        .addGap(0, 271, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -164,13 +165,12 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 81, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jButCargarPadron)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jButCargarPadron)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
+                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -181,9 +181,6 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
         PadronElecBE pebe = new PadronElecBE();
 
-        int i = 0;
-        boolean finCarga = false;
-
         fname = pathFile + File.separator + fname;
 
         //  pebl.deleteAll();
@@ -192,7 +189,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         // Charset charset = Charset.forName("UTF-16");
         InputStreamReader isr = new InputStreamReader(fis, "UTF8");
         // String en = isr.getEncoding();
-        try (BufferedReader br = new BufferedReader(isr)) {
+        try ( BufferedReader br = new BufferedReader(isr)) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] scrap = line.split(",", 7);
@@ -326,6 +323,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initMyComponents() {
+        DIContainer.registerDataManager(GloblaConstants.MARIADBCONN);
         jTxtPath.setText("C:\\Users\\garfi\\Downloads\\padron_completo");
         jTxtFileName.setText("PADRON_COMPLETO.txt");
         this.isStarted = false;

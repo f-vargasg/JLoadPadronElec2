@@ -5,8 +5,6 @@
  */
 package com.fvgprinc.app.jpadron2.be;
 
-import java.sql.Date;
-
 /**
  *
  * @author garfi
