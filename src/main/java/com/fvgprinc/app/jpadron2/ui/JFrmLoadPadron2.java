@@ -9,17 +9,21 @@ import com.fvgprinc.app.jpadron2.be.PadronElecBE;
 import com.fvgprinc.app.jpadron2.bl.CargadorArchivos;
 import com.fvgprinc.app.jpadron2.bl.PadronElecBL;
 import com.fvgprinc.app.jpadron2.globals.GloblaConstants;
-import com.fvgprinc.tools.common.app.dbconnection4.DIContainer;
-import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
+import com.fvgprinc.app.jpadron2.model.PadronElecTableModel;
+import com.fvgprinc.tools.db.CommonDALExceptions;
+import com.fvgprinc.tools.db.DIContainer;
+import com.fvgprinc.tools.db.ParamAction;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -49,35 +53,43 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButCargarPadron = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTxtFileName = new javax.swing.JTextField();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPnlCarga = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTxtPath = new javax.swing.JTextField();
-        jButBuscar = new javax.swing.JButton();
-        jTxtFldNumCedula = new javax.swing.JTextField();
-        jPBarLoadFile = new javax.swing.JProgressBar();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTxtFileName = new javax.swing.JTextField();
+        jButCargarPadron = new javax.swing.JButton();
         jButCargarPadronAsync = new javax.swing.JButton();
         jButCancelCargAsync = new javax.swing.JButton();
+        jPBarLoadFile = new javax.swing.JProgressBar();
+        jPnlSearch = new javax.swing.JPanel();
+        jTblSearch = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jTxtFldNumCedula = new javax.swing.JTextField();
+        jButBuscar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jTxtFldNombre = new javax.swing.JTextField();
+        jTxtFldPrimApe = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTxtFldSegApe = new javax.swing.JTextField();
+        jButBuscar1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTblData = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel2.setText("Path:");
+
+        jLabel1.setText("Archivo:");
 
         jButCargarPadron.setText("Cargar Padron");
         jButCargarPadron.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButCargarPadronActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Archivo:");
-
-        jLabel2.setText("Path:");
-
-        jButBuscar.setText("Buscar");
-        jButBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButBuscarActionPerformed(evt);
             }
         });
 
@@ -95,66 +107,40 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButCancelCargAsync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButCargarPadronAsync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(80, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jButCargarPadronAsync)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButCancelCargAsync)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPnlCargaLayout = new javax.swing.GroupLayout(jPnlCarga);
+        jPnlCarga.setLayout(jPnlCargaLayout);
+        jPnlCargaLayout.setHorizontalGroup(
+            jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlCargaLayout.createSequentialGroup()
+                .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPnlCargaLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTxtFileName)
-                            .addComponent(jTxtPath)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPnlCargaLayout.createSequentialGroup()
+                                .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTxtFldNumCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButBuscar)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
+                                    .addComponent(jLabel2))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTxtPath)))
+                    .addGroup(jPnlCargaLayout.createSequentialGroup()
+                        .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPnlCargaLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
                                 .addComponent(jButCargarPadron, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(86, 86, 86)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 271, Short.MAX_VALUE)))
+                                .addGap(82, 82, 82)
+                                .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButCancelCargAsync, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButCargarPadronAsync, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPnlCargaLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 378, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButBuscar)
-                    .addComponent(jTxtFldNumCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        jPnlCargaLayout.setVerticalGroup(
+            jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlCargaLayout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTxtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,15 +148,155 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTxtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jButCargarPadron)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
-                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPnlCargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButCargarPadron)
+                    .addGroup(jPnlCargaLayout.createSequentialGroup()
+                        .addComponent(jButCargarPadronAsync)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButCancelCargAsync)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+                .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Cargar Padrón", jPnlCarga);
+
+        jButBuscar.setText("Buscar");
+        jButBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Cédula:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTxtFldNumCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jButBuscar)
+                .addContainerGap(658, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTxtFldNumCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButBuscar)
+                    .addComponent(jLabel3))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jTblSearch.addTab("Por Cédula", jPanel1);
+
+        jLabel4.setText("Nombre:");
+
+        jLabel5.setText("Prim.Apellido:");
+
+        jLabel6.setText("Seg.Apellido:");
+
+        jButBuscar1.setText("Buscar");
+        jButBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButBuscar1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jTxtFldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTxtFldPrimApe, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTxtFldSegApe, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButBuscar1)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTxtFldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jTxtFldSegApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtFldPrimApe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButBuscar1))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        jTblSearch.addTab("Por Nombre", jPanel2);
+
+        jTblData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTblData);
+
+        javax.swing.GroupLayout jPnlSearchLayout = new javax.swing.GroupLayout(jPnlSearch);
+        jPnlSearch.setLayout(jPnlSearchLayout);
+        jPnlSearchLayout.setHorizontalGroup(
+            jPnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jTblSearch))
+                .addContainerGap())
+        );
+        jPnlSearchLayout.setVerticalGroup(
+            jPnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPnlSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Buscar", jPnlSearch);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -213,7 +339,6 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
     }
 
-
     private void jButCargarPadronActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButCargarPadronActionPerformed
         try {
             cargarPadron(jTxtPath.getText(), jTxtFileName.getText());
@@ -227,20 +352,14 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButCargarPadronActionPerformed
 
     private void jButBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButBuscarActionPerformed
-        String msg;
         try {
-            PadronElecBL pebl = new PadronElecBL();
-            if (pebl.existe(jTxtFldNumCedula.getText())) {
-                msg = "Existe!!!!!.....";
-            } else {
-                msg = "NO Existe!!!!!.....";
-            }
-            JOptionPane.showMessageDialog(null, msg);
-
-        } catch (SQLException ex) {
+            ArrayList<ParamAction> lstParams = new ArrayList<>();
+            lstParams.add(new ParamAction("cedula", ParamAction.JavaTypes.STRING, jTxtFldNumCedula.getText()));
+            AbstractTableModel utm = consultarPadron(lstParams);
+            jTblData.setModel(utm);
+        } catch (SQLException | CommonDALExceptions ex) {
             Logger.getLogger(JFrmLoadPadron2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CommonDALExceptions ex) {
-            Logger.getLogger(JFrmLoadPadron2.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Excepcion " + ex.getMessage());
         }
 
     }//GEN-LAST:event_jButBuscarActionPerformed
@@ -269,6 +388,39 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButCancelCargAsyncActionPerformed
+
+    private void jButBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButBuscar1ActionPerformed
+        try {
+            ArrayList<ParamAction> lstParams = new ArrayList<>();
+            if (jTxtFldNombre.getText().length() > 0) {
+                lstParams.add(new ParamAction("nombre", ParamAction.JavaTypes.STRING,
+                        jTxtFldNombre.getText(), true));
+            }
+
+            if (jTxtFldPrimApe.getText().length() > 0) {
+                lstParams.add(new ParamAction("primApe", ParamAction.JavaTypes.STRING,
+                        jTxtFldPrimApe.getText(), true));
+            }
+
+            if (jTxtFldSegApe.getText().length() > 0) {
+                lstParams.add(new ParamAction("segApe", ParamAction.JavaTypes.STRING,
+                        jTxtFldSegApe.getText(), true));
+            }
+
+            AbstractTableModel utm = consultarPadron(lstParams);
+            jTblData.setModel(utm);
+        } catch (SQLException | CommonDALExceptions ex) {
+            Logger.getLogger(JFrmLoadPadron2.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Excepcion " + ex.getMessage());
+        }
+    }//GEN-LAST:event_jButBuscar1ActionPerformed
+
+    private AbstractTableModel consultarPadron(ArrayList<ParamAction> plstParams) throws SQLException, CommonDALExceptions {
+        PadronElecBL pebl = new PadronElecBL();
+        ArrayList<PadronElecBE> lstCatClte = pebl.listar(plstParams);
+        PadronElecTableModel utm = new PadronElecTableModel(lstCatClte);
+        return utm;
+    }
 
     /**
      * @param args the command line arguments
@@ -310,15 +462,30 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButBuscar;
+    private javax.swing.JButton jButBuscar1;
     private javax.swing.JButton jButCancelCargAsync;
     private javax.swing.JButton jButCargarPadron;
     private javax.swing.JButton jButCargarPadronAsync;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JProgressBar jPBarLoadFile;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPnlCarga;
+    private javax.swing.JPanel jPnlSearch;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTblData;
+    private javax.swing.JTabbedPane jTblSearch;
     private javax.swing.JTextField jTxtFileName;
+    private javax.swing.JTextField jTxtFldNombre;
     private javax.swing.JTextField jTxtFldNumCedula;
+    private javax.swing.JTextField jTxtFldPrimApe;
+    private javax.swing.JTextField jTxtFldSegApe;
     private javax.swing.JTextField jTxtPath;
     // End of variables declaration//GEN-END:variables
 
@@ -329,4 +496,5 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         this.isStarted = false;
 
     }
+
 }

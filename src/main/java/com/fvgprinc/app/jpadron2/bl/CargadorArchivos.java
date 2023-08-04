@@ -6,7 +6,7 @@
 package com.fvgprinc.app.jpadron2.bl;
 
 import com.fvgprinc.app.jpadron2.be.PadronElecBE;
-import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
+import com.fvgprinc.tools.db.CommonDALExceptions;
 import java.awt.Cursor;
 import java.io.BufferedReader;
 import java.io.File;

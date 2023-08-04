@@ -7,8 +7,8 @@ package com.fvgprinc.app.jpadron2.bl;
 
 import com.fvgprinc.app.jpadron2.be.PadronElecBE;
 import com.fvgprinc.app.jpadron2.dl.PadronElecDL;
-import com.fvgprinc.tools.common.app.layers.ParamAction;
-import com.fvgprinc.tools.common.datalayer.CommonDALExceptions;
+import com.fvgprinc.tools.db.CommonDALExceptions;
+import com.fvgprinc.tools.db.ParamAction;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,8 +20,13 @@ import java.util.ArrayList;
  */
 public class PadronElecBL {
 
+    private PadronElecDL pedl;
+    
+    public PadronElecBL() throws SQLException, CommonDALExceptions {
+        pedl = new  PadronElecDL();
+    }
+
     public void insertar(PadronElecBE padronElecBE) throws SQLException, FileNotFoundException, IOException, CommonDALExceptions {
-        PadronElecDL pedl = new PadronElecDL();
         ArrayList<ParamAction> lst = new ArrayList<ParamAction>();
 //        lst.add(new ParamAction(ParamAction.JavaTypes.LONG, usuarioBE.getId()));
         lst.add(new ParamAction(ParamAction.JavaTypes.STRING, padronElecBE.getCedula()));
@@ -35,8 +40,6 @@ public class PadronElecBL {
     }
 
     public void deleteAll() throws SQLException, CommonDALExceptions {
-        PadronElecDL pedl = new PadronElecDL();
-                
         pedl.deleteAll();
                 
     }
@@ -44,9 +47,15 @@ public class PadronElecBL {
     public boolean existe(String numCedula) throws SQLException, CommonDALExceptions {
         boolean res = false;
 
-        PadronElecDL pedl = new PadronElecDL();
         res = pedl.existe(numCedula);
         return res;
 
     }
+
+    public ArrayList<PadronElecBE> listar(ArrayList<ParamAction> params) throws SQLException {
+        ArrayList<PadronElecBE> res = null;
+        res = pedl.listar( params);
+        return res;
+    }
+
 }
