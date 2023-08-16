@@ -79,6 +79,8 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         jButBuscar1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblData = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        jBtnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,7 +157,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                         .addComponent(jButCargarPadronAsync)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButCancelCargAsync)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
                 .addComponent(jPBarLoadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -278,10 +280,23 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jTblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Buscar", jPnlSearch);
+
+        jToolBar1.setRollover(true);
+
+        jBtnExit.setText("Salir");
+        jBtnExit.setFocusable(false);
+        jBtnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnExitActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBtnExit);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -289,12 +304,18 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
@@ -415,6 +436,10 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButBuscar1ActionPerformed
 
+    private void jBtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jBtnExitActionPerformed
+
     private AbstractTableModel consultarPadron(ArrayList<ParamAction> plstParams) throws SQLException, CommonDALExceptions {
         PadronElecBL pebl = new PadronElecBL();
         ArrayList<PadronElecBE> lstCatClte = pebl.listar(plstParams);
@@ -461,6 +486,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnExit;
     private javax.swing.JButton jButBuscar;
     private javax.swing.JButton jButBuscar1;
     private javax.swing.JButton jButCancelCargAsync;
@@ -481,6 +507,7 @@ public class JFrmLoadPadron2 extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTblData;
     private javax.swing.JTabbedPane jTblSearch;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField jTxtFileName;
     private javax.swing.JTextField jTxtFldNombre;
     private javax.swing.JTextField jTxtFldNumCedula;
