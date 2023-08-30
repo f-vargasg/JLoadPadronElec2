@@ -12,6 +12,7 @@ import com.fvgprinc.tools.db.CommonDALExceptions;
 import com.fvgprinc.tools.db.DIContainer;
 import com.fvgprinc.tools.db.Mapper;
 import com.fvgprinc.tools.db.ParamAction;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import java.sql.ResultSet;
@@ -82,16 +83,19 @@ public class PadronElecDL extends Mapper {
     }
 
     @Override
-    protected Object doFind(ArrayList<ParamAction> keyFiedls) throws SQLException {
+    public Object doFind(ArrayList<ParamAction> keyFiedls) throws SQLException {
         PadronElecBE pebe = null;
         //ResultSet rs = this.doStmReturnData(FindStm, keyFiedls);
         //PreparedStatement ps = conn.prepareStatement(FIND_STM_BY_PK);
         //ps = this.setParamPreparedStm(ps, keyFiedls);
-        PreparedStatement ps = doStmReturn(FIND_STM_BY_PK, keyFiedls);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            pebe = (PadronElecBE) load(rs);
+        try ( Connection conn = dm.getConnectioin();  PreparedStatement ps = conn.prepareStatement(FIND_STM_BY_PK)) {
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    pebe = (PadronElecBE) load(rs);
+                }
+            }
         }
+
         return pebe;
     }
 
@@ -105,17 +109,19 @@ public class PadronElecDL extends Mapper {
 
     public ArrayList<PadronElecBE> listar(ArrayList<ParamAction> params) throws SQLException {
         ArrayList<PadronElecBE> lstRes = new ArrayList<>();
-        String condSql = queryCond(params);
+        String condSql = ParamAction.queryCond(params);
         String sqlStm = SELECT_STM + (condSql.length() > 0 ? " WHERE " : MyCommonString.EMPTYSTR)
                 + condSql;
-        try ( PreparedStatement ps = this.doStmReturn(sqlStm, params);  ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                PadronElecBE ub = (PadronElecBE) doLoad(rs);
-                lstRes.add(ub);
+        try ( Connection conn = dm.getConnectioin();  PreparedStatement ps = conn.prepareStatement(sqlStm)) {
+            this.setParamPreparedStm(ps, params);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    PadronElecBE ub = (PadronElecBE) doLoad(rs);
+                    lstRes.add(ub);
+                }
             }
+            return lstRes;
         }
-        this.conn.close();
-        return lstRes;
     }
 
 }
